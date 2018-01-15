@@ -45,7 +45,7 @@ def connect(com,baud):
 		ser = choose_dev()
 	return ser
 
-def sendMessage(data):
+def sendMessage(data, sys):
 	# 去掉換行字元
 	if (sys == '1'):
 		data = data[:-1]
@@ -65,13 +65,13 @@ if __name__ == '__main__':
 	# 列出可用 COM port
 	list_com()
 	# 選擇裝置
-	ser = choose_dev()
+	ser, sys = choose_dev()
 	try:
 		ser.open()
 		print("connected")
 		ser.isOpen()
 		data = ser.readlines()
 		# 丟給後台傳資料
-		sendMessage(data)	
+		sendMessage(data, sys)	
 	except:
 		print("failure")
