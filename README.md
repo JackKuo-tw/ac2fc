@@ -3,8 +3,8 @@ This is our final project of NCNU's course, using Arduino to build two-factor au
 
 ## collaborator
 
-[JackKuo](https://github.com/jackkuo-tw)
-[Ian]
+- [JackKuo](https://github.com/jackkuo-tw)
+- Ian
 
 ## What we use
 
