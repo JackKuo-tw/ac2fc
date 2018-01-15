@@ -5,7 +5,7 @@ This is our final project of NCNU's course, using Arduino to build two-factor au
 
 - [JackKuo](https://github.com/jackkuo-tw)
 - [IanLee](https://github.com/ian1hx)
-- [Gavin](https://github.com/gavin666)
+- [Gavin](https://github.com/666gavin666)
 
 ## What we use
 
