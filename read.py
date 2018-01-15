@@ -23,20 +23,20 @@ def choose_dev():
 			break
 	# display usage info
 	if( sys == '1'):
-		com = input("Linux/Mac:\nPlease input your com port (e.g., /dev/ttyUSB0)\n") 
+		com = input("Linux/Mac:\nPlease input your com port (e.g., /dev/ttyUSB0)\n")
 		baud = input("baud rate? (int)\n")
 	elif( sys == '2'):
-		com = input("Windows:\nPlease input your com port (e.g., COM3)\n") 
+		com = input("Windows:\nPlease input your com port (e.g., COM3)\n")
 		baud = input("baud rate? (int)\n")
 	# setting connection
-	ser = connect(com,baud)
+	ser = connect(com, baud)
 	return ser, sys
 
 def connect(com,baud):
 	try:
-		ser=serial.Serial(com , baud, timeout= 0.5 )
+		ser = serial.Serial(port = com, baudrate = int(baud), bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE,timeout=2)
 		# 打印設備名稱
-		print("Serial device name: " + ser.name)
+		#print("Serial device name: " + ser.name)
 
 	# 設定失敗就重新選擇
 	except:
@@ -46,6 +46,7 @@ def connect(com,baud):
 	return ser
 
 def sendMessage(data, sys):
+
 	# 去掉換行字元
 	if (sys == '1'):
 		data = data[:-1]
@@ -57,8 +58,9 @@ def sendMessage(data, sys):
 		url = target + '?UID=' + data[0] + '&user=' + data[1]
 	elif( len(data) == 1):
 		url = target + '?UID=' + data[0]
+	print(url)
 	requests.get(url=url)
-		
+
 
 
 if __name__ == '__main__':
@@ -66,12 +68,25 @@ if __name__ == '__main__':
 	list_com()
 	# 選擇裝置
 	ser, sys = choose_dev()
+
 	try:
-		ser.open()
-		print("connected")
 		ser.isOpen()
-		data = ser.readlines()
-		# 丟給後台傳資料
-		sendMessage(data, sys)	
+		print("Serial port is open")
 	except:
 		print("failure")
+		exit()
+
+	if(ser.isOpen()):
+		try:
+			while( True ) :
+				data = ser.readlines()
+				print(data)
+				try:
+					data = (data[0]).decode('utf-8')
+					if(len(data) > 0):
+						sendMessage(data, sys)	# 丟給後台傳資料
+				except:
+					pass
+
+		except:
+			print("error")
